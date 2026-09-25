@@ -63,7 +63,7 @@ Tasks are ordered so that each layer is stable before the layer above it is buil
 
 ---
 
-- [ ] 4. Implement `JsonRepository`
+- [x] 4. Implement `JsonRepository`
 
   In `repository/json_repo.py`, implement `JsonRepository(UserRepository)` that persists to a single JSON file at the path provided at construction. Reads the full file on every read; writes the full file on every write. Protects concurrent writes with a `threading.Lock`. Resolves `DATA_DIR` from the caller (injected path), not read directly from the environment.
 
