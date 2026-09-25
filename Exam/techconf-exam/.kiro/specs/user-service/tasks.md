@@ -47,7 +47,7 @@ Tasks are ordered so that each layer is stable before the layer above it is buil
 
 ---
 
-- [ ] 2. Implement the `UserRepository` abstract interface
+- [x] 2. Implement the `UserRepository` abstract interface
 
   In `repository/base.py`, define the `UserRepository` ABC with the six abstract methods: `insert`, `find_by_id`, `find_all`, `update`, `delete`, `email_exists`. All methods receive and return plain `dict` objects.
 
