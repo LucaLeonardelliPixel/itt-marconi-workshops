@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Run Unit Tests on Python Save",
+      "trigger": "PostFileSave",
+      "description": "After saving any app Python file inside a service, automatically runs the unit tests for that service and prints the result in the terminal.",
+      "matcher": "services[\\\\/][^/\\\\]+[\\\\/]app[\\\\/].*\\.py$",
+      "action": {
+        "type": "command",
+        "command": "python -c \"\nimport subprocess, sys, re, pathlib, os\n\n# Derive the service directory from the saved file path\nsaved = os.environ.get('KIRO_FILE_PATH', '')\nm = re.search(r'(services[\\\\\\\\/][^\\\\\\\\/]+)', saved)\nif not m:\n    sys.exit(0)\nsvc_dir = pathlib.Path(saved[:saved.index(m.group(1)) + len(m.group(1))])\ntest_dir = svc_dir / 'tests' / 'unit'\nif not test_dir.exists():\n    print(f'No unit tests yet at {test_dir}', flush=True)\n    sys.exit(0)\n\nresult = subprocess.run(\n    [sys.executable, '-m', 'pytest', str(test_dir), '-q', '--tb=short', '--no-header'],\n    capture_output=True, text=True\n)\nprint(result.stdout[-3000:] if len(result.stdout) > 3000 else result.stdout)\nif result.returncode != 0:\n    print(result.stderr[-1000:] if result.stderr else '', flush=True)\nsys.exit(0)  # don't block the save\n\"\n",
+        "timeout": 60
+      }
+    }
+  ]
+}
