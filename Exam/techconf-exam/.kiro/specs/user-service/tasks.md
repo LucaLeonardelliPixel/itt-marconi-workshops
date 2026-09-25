@@ -79,7 +79,7 @@ Tasks are ordered so that each layer is stable before the layer above it is buil
 
 ---
 
-- [ ] 6. Implement `UserService` — create and email uniqueness
+- [x] 6. Implement `UserService` — create and email uniqueness
 
   In `service/user_service.py`, implement `UserService(repo: UserRepository)` with the `create(data)` method:
   - Validate all `UserCreate` fields (required fields, lengths, email format, no extra keys).
