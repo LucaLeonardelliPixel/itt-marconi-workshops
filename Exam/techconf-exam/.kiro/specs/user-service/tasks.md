@@ -114,7 +114,7 @@ Tasks are ordered so that each layer is stable before the layer above it is buil
 
 ---
 
-- [ ] 9. Implement `UserService` — replace (PUT)
+- [x] 9. Implement `UserService` — replace (PUT)
 
   Add `replace(id, data)` to `UserService`:
   - Validate all `UserCreate` fields.

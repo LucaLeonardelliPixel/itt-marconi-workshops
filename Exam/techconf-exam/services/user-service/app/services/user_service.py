@@ -269,7 +269,64 @@ class UserService:
             raise NotFoundError(user_id)
         return user
 
-    # Methods implemented in Tasks 9–11:
-    #   replace(id, data)              -> dict
+    def replace(self, user_id: str, data: dict) -> dict:
+        """Fully replace an existing user (PUT semantics).
+
+        Steps
+        -----
+        1. Validate all ``UserCreate`` fields (same rules as ``create``).
+        2. Normalise email to lowercase + stripped.
+        3. Enforce email uniqueness, excluding the target user from the check.
+        4. Fetch the existing record; raise ``NotFoundError`` if absent.
+        5. Preserve the original ``id`` and ``created_at``.
+        6. Set ``updated_at`` to current UTC.
+        7. Delegate to ``repo.update`` and return the updated dict.
+
+        Parameters
+        ----------
+        user_id:
+            The UUID string of the user to replace.
+        data:
+            Raw ``UserCreate`` dict from the HTTP layer.
+
+        Returns
+        -------
+        dict
+            The updated ``User`` dict (all eight fields present).
+
+        Raises
+        ------
+        ValidationError
+            Any field violation or unknown key.
+        EmailConflictError
+            Email is already registered to a *different* user.
+        NotFoundError
+            No user with *user_id* exists in the repository.
+        """
+        _validate_create(data)
+
+        normalised_email = _normalise_email(data["email"])
+
+        if self._repo.email_exists(normalised_email, exclude_id=user_id):
+            raise EmailConflictError(normalised_email)
+
+        existing = self._repo.find_by_id(user_id)
+        if existing is None:
+            raise NotFoundError(user_id)
+
+        updated_user: dict = {
+            "id": existing["id"],
+            "first_name": data["first_name"],
+            "last_name": data["last_name"],
+            "email": normalised_email,
+            "company": data.get("company"),
+            "role": data.get("role", "attendee"),
+            "created_at": existing["created_at"],
+            "updated_at": _utc_now(),
+        }
+
+        return self._repo.update(user_id, updated_user)
+
+    # Methods implemented in Tasks 10–11:
     #   update(id, data)               -> dict
     #   delete(id)                     -> None
