@@ -183,7 +183,7 @@ Tasks are ordered so that each layer is stable before the layer above it is buil
 
 ---
 
-- [ ] 14. Write service-layer unit tests (`test_service.py`)
+- [x] 14. Write service-layer unit tests (`test_service.py`)
 
   In `tests/test_service.py`, write tests that call `UserService` methods directly (no HTTP) using `MemoryRepository`:
   - `create`: happy path returns correct `User` dict; email is normalised; `role` defaults to `attendee`; `id` / `created_at` / `updated_at` are server-generated.
