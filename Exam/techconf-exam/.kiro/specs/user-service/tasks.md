@@ -105,7 +105,7 @@ Tasks are ordered so that each layer is stable before the layer above it is buil
 
 ---
 
-- [ ] 8. Implement `UserService` — get by ID
+- [x] 8. Implement `UserService` — get by ID
 
   Add `get(id)` to `UserService`:
   - Delegate to `repo.find_by_id`; raise `NotFoundError` if the result is `None`.

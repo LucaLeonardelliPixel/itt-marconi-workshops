@@ -72,6 +72,18 @@
         "chatSessionId": "sess_dfdb45bb-7c9f-4981-adf8-ae49a04f4105",
         "timestamp": 1790341635367
       }
+    ],
+    "8. Implement `UserService` — get by ID": [
+      {
+        "executionId": "00fda0b0-b115-4c5e-a1a4-5f49ffad6f1f",
+        "chatSessionId": "sess_86953d59-2bb5-4e83-966f-f76ad8a503b8",
+        "timestamp": 1790341718320
+      },
+      {
+        "executionId": "00fda0b0-b115-4c5e-a1a4-5f49ffad6f1f",
+        "chatSessionId": "sess_86953d59-2bb5-4e83-966f-f76ad8a503b8",
+        "timestamp": 1790341783930
+      }
     ]
   }
 }

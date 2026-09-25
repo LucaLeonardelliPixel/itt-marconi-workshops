@@ -246,8 +246,30 @@ class UserService:
             "total": total,
         }
 
-    # Methods implemented in Tasks 8–11:
-    #   get(id)                        -> dict
+    def get(self, user_id: str) -> dict:
+        """Retrieve a single user by their ID.
+
+        Parameters
+        ----------
+        user_id:
+            The UUID string of the user to retrieve.
+
+        Returns
+        -------
+        dict
+            The ``User`` dict for the matching record.
+
+        Raises
+        ------
+        NotFoundError
+            No user with *user_id* exists in the repository.
+        """
+        user = self._repo.find_by_id(user_id)
+        if user is None:
+            raise NotFoundError(user_id)
+        return user
+
+    # Methods implemented in Tasks 9–11:
     #   replace(id, data)              -> dict
     #   update(id, data)               -> dict
     #   delete(id)                     -> None
