@@ -149,7 +149,7 @@ Tasks are ordered so that each layer is stable before the layer above it is buil
 
 ---
 
-- [ ] 12. Implement Flask routes and application factory
+- [x] 12. Implement Flask routes and application factory
 
   In `routes/users.py`, create a Flask `Blueprint` named `users` with all seven route functions (see design §2.1). Each function:
   - Parses request body / query params.
