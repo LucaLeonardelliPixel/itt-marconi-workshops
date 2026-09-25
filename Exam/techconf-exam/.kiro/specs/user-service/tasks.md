@@ -17,7 +17,7 @@ Tasks are ordered so that each layer is stable before the layer above it is buil
 
 ## Tasks
 
-- [ ] 1. Set up project structure and domain exceptions
+- [x] 1. Set up project structure and domain exceptions
 
   Create the `user-service/` directory tree as specified in the design:
 
