@@ -327,6 +327,132 @@ class UserService:
 
         return self._repo.update(user_id, updated_user)
 
-    # Methods implemented in Tasks 10–11:
-    #   update(id, data)               -> dict
+    def update(self, user_id: str, data: dict) -> dict:
+        """Partially update an existing user (PATCH semantics).
+
+        Steps
+        -----
+        1. Validate ``UserUpdate`` fields (at least one present; same per-field
+           rules as ``create``; no extra keys).
+        2. Normalise email to lowercase + stripped if supplied.
+        3. Enforce email uniqueness, excluding the target user from the check.
+        4. Raise ``NotFoundError`` if the user does not exist.
+        5. Merge supplied fields onto the existing record; never overwrite
+           ``id`` or ``created_at``; set ``updated_at`` to current UTC.
+        6. Delegate to ``repo.patch`` and return the updated dict.
+
+        Parameters
+        ----------
+        user_id:
+            The UUID string of the user to patch.
+        data:
+            Raw ``UserUpdate`` dict from the HTTP layer (all fields optional,
+            at least one required).
+
+        Returns
+        -------
+        dict
+            The updated ``User`` dict (all eight fields present).
+
+        Raises
+        ------
+        ValidationError
+            Any field violation, unknown key, or empty body.
+        EmailConflictError
+            Email is already registered to a *different* user.
+        NotFoundError
+            No user with *user_id* exists in the repository.
+        """
+        _validate_update(data)
+
+        # Normalise email before the uniqueness check.
+        patch_data = dict(data)
+        if "email" in patch_data:
+            patch_data["email"] = _normalise_email(patch_data["email"])
+            if self._repo.email_exists(patch_data["email"], exclude_id=user_id):
+                raise EmailConflictError(patch_data["email"])
+
+        # Confirm the user exists before writing anything.
+        existing = self._repo.find_by_id(user_id)
+        if existing is None:
+            raise NotFoundError(user_id)
+
+        # Protect immutable fields and refresh updated_at.
+        patch_data.pop("id", None)
+        patch_data.pop("created_at", None)
+        patch_data["updated_at"] = _utc_now()
+
+        result = self._repo.patch(user_id, patch_data)
+        # patch() returns None only when the record disappeared between the
+        # find_by_id check above and the write — treat that as NotFoundError.
+        if result is None:
+            raise NotFoundError(user_id)
+        return result
+
+    # Methods implemented in Tasks 11:
     #   delete(id)                     -> None
+
+    # ------------------------------------------------------------------
+    # Internal validation helpers
+    # ------------------------------------------------------------------
+
+
+_USERUPDATE_ALLOWED_KEYS = _USERCREATE_ALLOWED_KEYS  # same field set, all optional
+
+
+def _validate_update(data: dict) -> None:
+    """Validate a ``UserUpdate`` payload.
+
+    Rules:
+    1. *data* must be a dict.
+    2. At least one key must be present.
+    3. No keys outside the allowed set (``additionalProperties: false``).
+    4. Field-level constraints apply to any field that *is* present.
+    """
+    if not isinstance(data, dict):
+        raise ValidationError("Request body must be a JSON object.")
+
+    if not data:
+        raise ValidationError("PATCH body must contain at least one field.")
+
+    # additionalProperties: false
+    extra_keys = set(data.keys()) - _USERUPDATE_ALLOWED_KEYS
+    if extra_keys:
+        raise ValidationError(
+            f"Unknown field(s): {', '.join(sorted(extra_keys))}."
+        )
+
+    # Per-field checks — only validate fields actually supplied.
+    if "first_name" in data:
+        v = data["first_name"]
+        if not isinstance(v, str) or not v.strip():
+            raise ValidationError("'first_name' must be a non-empty string.")
+        if not (1 <= len(v) <= 50):
+            raise ValidationError("'first_name' must be between 1 and 50 characters.")
+
+    if "last_name" in data:
+        v = data["last_name"]
+        if not isinstance(v, str) or not v.strip():
+            raise ValidationError("'last_name' must be a non-empty string.")
+        if not (1 <= len(v) <= 50):
+            raise ValidationError("'last_name' must be between 1 and 50 characters.")
+
+    if "email" in data:
+        v = data["email"]
+        if not isinstance(v, str) or not _EMAIL_RE.match(v.strip()):
+            raise ValidationError("'email' must be a valid email address.")
+
+    if "company" in data:
+        v = data["company"]
+        if v is not None:
+            if not isinstance(v, str):
+                raise ValidationError("'company' must be a string or null.")
+            if len(v) > 100:
+                raise ValidationError("'company' must be at most 100 characters.")
+
+    if "role" in data:
+        v = data["role"]
+        if not isinstance(v, str) or v not in _VALID_ROLES:
+            raise ValidationError(
+                f"'role' must be one of: {', '.join(sorted(_VALID_ROLES))}."
+            )

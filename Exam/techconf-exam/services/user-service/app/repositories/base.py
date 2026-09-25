@@ -95,6 +95,29 @@ class UserRepository(ABC):
         """
 
     @abstractmethod
+    def patch(self, id: str, data: dict) -> dict | None:
+        """Merge *data* onto the existing record for *id*.
+
+        Unlike ``update``, which overwrites the whole record, ``patch``
+        applies only the keys present in *data*, leaving all other fields
+        unchanged.  The service layer guarantees that ``id`` and
+        ``created_at`` are never included in *data*.
+
+        Parameters
+        ----------
+        id:
+            UUID v4 string identifying the user to patch.
+        data:
+            Dict of fields to merge onto the existing record.
+
+        Returns
+        -------
+        dict | None
+            The updated user dict after the merge, or ``None`` if *id* was
+            not found.
+        """
+
+    @abstractmethod
     def email_exists(self, email: str, exclude_id: str | None = None) -> bool:
         """Check whether a normalised email address is already in use.
 

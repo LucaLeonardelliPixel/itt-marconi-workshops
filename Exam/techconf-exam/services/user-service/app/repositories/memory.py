@@ -71,6 +71,18 @@ class MemoryRepository(UserRepository):
             return True
         return False
 
+    def patch(self, id: str, data: dict) -> dict | None:
+        """Merge *data* onto the existing record for *id*.
+
+        Only the keys present in *data* are updated; all other fields remain
+        unchanged.  Returns a copy of the updated record, or ``None`` if *id*
+        was not found.
+        """
+        if id not in self._store:
+            return None
+        self._store[id] = {**self._store[id], **copy.deepcopy(data)}
+        return copy.deepcopy(self._store[id])
+
     def email_exists(self, email: str, exclude_id: str | None = None) -> bool:
         """Return ``True`` if *email* is already owned by another user.
 

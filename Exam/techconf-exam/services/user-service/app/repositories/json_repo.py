@@ -115,6 +115,21 @@ class JsonRepository(UserRepository):
             self._save(store)
         return True
 
+    def patch(self, id: str, data: dict) -> dict | None:
+        """Merge *data* onto the existing record for *id*.
+
+        Only the keys present in *data* are updated; all other fields remain
+        unchanged.  Returns a copy of the updated record, or ``None`` if *id*
+        was not found.
+        """
+        with self._lock:
+            store = self._load()
+            if id not in store:
+                return None
+            store[id] = {**store[id], **copy.deepcopy(data)}
+            self._save(store)
+            return copy.deepcopy(store[id])
+
     def email_exists(self, email: str, exclude_id: str | None = None) -> bool:
         """Return ``True`` if *email* is already owned by another user.
 

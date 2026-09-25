@@ -96,6 +96,18 @@
         "chatSessionId": "sess_38f0620f-2b98-4b95-b3a4-fa7448ac0cec",
         "timestamp": 1790341885438
       }
+    ],
+    "10. Implement `UserService` — partial update (PATCH)": [
+      {
+        "executionId": "0705bfa1-2cfb-4091-9826-525ecf5482eb",
+        "chatSessionId": "sess_17d3e2dc-2d01-468c-b2a4-a8b638c5028f",
+        "timestamp": 1790341948018
+      },
+      {
+        "executionId": "0705bfa1-2cfb-4091-9826-525ecf5482eb",
+        "chatSessionId": "sess_17d3e2dc-2d01-468c-b2a4-a8b638c5028f",
+        "timestamp": 1790342378311
+      }
     ]
   }
 }

@@ -127,7 +127,7 @@ Tasks are ordered so that each layer is stable before the layer above it is buil
 
 ---
 
-- [ ] 10. Implement `UserService` — partial update (PATCH)
+- [x] 10. Implement `UserService` — partial update (PATCH)
 
   Add `update(id, data)` to `UserService`:
   - Validate `UserUpdate` fields (at least one present; same field-level rules as `UserCreate`).

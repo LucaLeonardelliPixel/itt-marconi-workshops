@@ -158,6 +158,33 @@ class Sqlite3Repository(UserRepository):
 
         return cursor.rowcount > 0
 
+    def patch(self, id: str, data: dict) -> dict | None:
+        """Merge *data* onto the existing record for *id*.
+
+        Only the columns whose names appear in *data* are written; all other
+        columns remain unchanged.  Returns the updated user dict, or ``None``
+        if *id* was not found.
+        """
+        # Build a SET clause only for the columns present in data.
+        # Guard against id and created_at ever leaking in (service should
+        # never pass them, but be defensive).
+        updatable_cols = [col for col in _COLUMNS if col != "id" and col in data]
+        if not updatable_cols:
+            # Nothing to write; return the current record (or None if absent).
+            return self.find_by_id(id)
+
+        set_clause = ", ".join(f"{col} = ?" for col in updatable_cols)
+        sql = f"UPDATE users SET {set_clause} WHERE id = ?"
+        values = tuple(data[col] for col in updatable_cols) + (id,)
+
+        with self._connect() as conn:
+            cursor = conn.execute(sql, values)
+            conn.commit()
+            if cursor.rowcount == 0:
+                return None
+
+        return self.find_by_id(id)
+
     def email_exists(self, email: str, exclude_id: str | None = None) -> bool:
         """Return ``True`` if *email* is already owned by another user.
 
