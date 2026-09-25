@@ -12,7 +12,7 @@ This plan implements event-service in four sequential macro-tasks. Each task is 
 
 ## Tasks
 
-- [ ] 1. Project structure, domain exceptions, and UserRepository/EventRepository interface + 3 adapters (memory, json, sqlite).
+- [x] 1. Project structure, domain exceptions, and UserRepository/EventRepository interface + 3 adapters (memory, json, sqlite).
 
   Create the service under `services/event-service/` using the structure defined in `design.md`: the `app` package, routes, services, repositories, clients, unit and custom integration test directories, pinned dependency files, pytest configuration, and the `python -m app` entry-point skeleton.
 
@@ -37,7 +37,7 @@ This plan implements event-service in four sequential macro-tasks. Each task is 
 
 ---
 
-- [ ] 2. EventService business logic (event creation, capacity, organizer validation).
+- [x] 2. EventService business logic (event creation, capacity, organizer validation).
 
   Implement `EventService` as pure business/application logic over the injected `EventRepository` and `UserRepository` ports. Cover the complete API behavior, not only creation:
 
@@ -61,7 +61,7 @@ This plan implements event-service in four sequential macro-tasks. Each task is 
 
 ---
 
-- [ ] 3. Flask routes, error handlers, and app factory.
+- [x] 3. Flask routes, error handlers, and app factory.
 
   Implement the Flask HTTP layer and runtime composition:
 
@@ -85,7 +85,7 @@ This plan implements event-service in four sequential macro-tasks. Each task is 
 
 ---
 
-- [ ] 4. Unit/Integration tests with contract assertions `assert_matches_contract` and pytest coverage >= 80%.
+- [x] 4. Unit/Integration tests with contract assertions `assert_matches_contract` and pytest coverage >= 80%.
 
   Build the complete event-service verification suite:
 
