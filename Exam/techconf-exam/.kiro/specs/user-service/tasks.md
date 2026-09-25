@@ -71,7 +71,7 @@ Tasks are ordered so that each layer is stable before the layer above it is buil
 
 ---
 
-- [ ] 5. Implement `Sqlite3Repository`
+- [x] 5. Implement `Sqlite3Repository`
 
   In `repository/sqlite_repo.py`, implement `Sqlite3Repository(UserRepository)` using Python's built-in `sqlite3` module. Create the `users` table with `CREATE TABLE IF NOT EXISTS` on first connection. Use parameterised queries for all read/write operations. Column layout mirrors the `User` schema; `id` is the primary key (TEXT).
 
