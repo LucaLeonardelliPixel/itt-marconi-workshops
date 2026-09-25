@@ -55,7 +55,7 @@ Tasks are ordered so that each layer is stable before the layer above it is buil
 
 ---
 
-- [ ] 3. Implement `MemoryRepository`
+- [x] 3. Implement `MemoryRepository`
 
   In `repository/memory.py`, implement `MemoryRepository(UserRepository)` backed by an in-process `dict[str, dict]`. Implement all six interface methods. This adapter is the default and the test baseline.
 

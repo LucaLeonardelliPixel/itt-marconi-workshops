@@ -12,6 +12,18 @@
         "chatSessionId": "sess_e5af731a-2d8c-4d9f-8735-1798081a59be",
         "timestamp": 1790340732312
       }
+    ],
+    "3. Implement `MemoryRepository`": [
+      {
+        "executionId": "2dc6dc6f-5bb5-4ff3-a5db-47327e8c2bfb",
+        "chatSessionId": "sess_91350319-00f9-4f7e-9f50-127833aa2f38",
+        "timestamp": 1790340849587
+      },
+      {
+        "executionId": "2dc6dc6f-5bb5-4ff3-a5db-47327e8c2bfb",
+        "chatSessionId": "sess_91350319-00f9-4f7e-9f50-127833aa2f38",
+        "timestamp": 1790340931507
+      }
     ]
   }
 }
