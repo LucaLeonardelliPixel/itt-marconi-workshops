@@ -179,8 +179,74 @@ class UserService:
 
         return self._repo.insert(user)
 
-    # Methods implemented in Tasks 7–11:
-    #   list(filters, page, page_size) -> dict
+    def list(
+        self,
+        filters: dict | None = None,
+        page: int = 1,
+        page_size: int = 20,
+    ) -> dict:
+        """Return a paginated, optionally filtered list of users.
+
+        Parameters
+        ----------
+        filters:
+            Optional dict of filter criteria.  Supported keys:
+            ``role`` (must be a valid role value) and ``email``.
+        page:
+            1-based page number.  Must be ≥ 1; raises ``ValidationError``
+            otherwise.
+        page_size:
+            Number of items per page.  Must be between 1 and 100 inclusive;
+            raises ``ValidationError`` otherwise.
+
+        Returns
+        -------
+        dict
+            A ``UserPage`` dict with keys ``items``, ``page``, ``page_size``,
+            and ``total`` (count of all filtered results before pagination).
+
+        Raises
+        ------
+        ValidationError
+            ``page`` < 1, ``page_size`` outside [1, 100], or ``role`` filter
+            contains an unrecognised value.
+        """
+        # --- Validate pagination parameters ---
+        if not isinstance(page, int) or isinstance(page, bool) or page < 1:
+            raise ValidationError("'page' must be an integer ≥ 1.")
+        if (
+            not isinstance(page_size, int)
+            or isinstance(page_size, bool)
+            or not (1 <= page_size <= 100)
+        ):
+            raise ValidationError("'page_size' must be an integer between 1 and 100.")
+
+        # --- Validate role filter if present ---
+        filters = filters or {}
+        role_filter = filters.get("role")
+        if role_filter is not None and role_filter not in _VALID_ROLES:
+            raise ValidationError(
+                f"'role' filter must be one of: {', '.join(sorted(_VALID_ROLES))}."
+            )
+
+        # --- Fetch filtered records from the repository ---
+        all_items = self._repo.find_all(filters if filters else None)
+
+        total = len(all_items)
+
+        # --- Apply pagination slice ---
+        start = (page - 1) * page_size
+        end = start + page_size
+        page_items = all_items[start:end]
+
+        return {
+            "items": page_items,
+            "page": page,
+            "page_size": page_size,
+            "total": total,
+        }
+
+    # Methods implemented in Tasks 8–11:
     #   get(id)                        -> dict
     #   replace(id, data)              -> dict
     #   update(id, data)               -> dict

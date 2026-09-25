@@ -93,7 +93,7 @@ Tasks are ordered so that each layer is stable before the layer above it is buil
 
 ---
 
-- [ ] 7. Implement `UserService` — list with filtering and pagination
+- [x] 7. Implement `UserService` — list with filtering and pagination
 
   Add `list(filters, page, page_size)` to `UserService`:
   - Validate `page ≥ 1` and `1 ≤ page_size ≤ 100`; raise `ValidationError` otherwise.

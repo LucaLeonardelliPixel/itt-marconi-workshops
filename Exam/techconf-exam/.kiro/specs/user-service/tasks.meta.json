@@ -60,6 +60,18 @@
         "chatSessionId": "sess_1c7421bd-4cb2-420a-a94d-47a3a79166bf",
         "timestamp": 1790341484879
       }
+    ],
+    "7. Implement `UserService` — list with filtering and pagination": [
+      {
+        "executionId": "7a361b16-2ca6-410a-be7a-f6e6a6adb45c",
+        "chatSessionId": "sess_dfdb45bb-7c9f-4981-adf8-ae49a04f4105",
+        "timestamp": 1790341547896
+      },
+      {
+        "executionId": "7a361b16-2ca6-410a-be7a-f6e6a6adb45c",
+        "chatSessionId": "sess_dfdb45bb-7c9f-4981-adf8-ae49a04f4105",
+        "timestamp": 1790341635367
+      }
     ]
   }
 }
