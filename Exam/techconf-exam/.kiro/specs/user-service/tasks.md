@@ -167,7 +167,7 @@ Tasks are ordered so that each layer is stable before the layer above it is buil
 
 ---
 
-- [ ] 13. Write repository-layer unit tests (`test_repository.py`)
+- [x] 13. Write repository-layer unit tests (`test_repository.py`)
 
   Create `tests/conftest.py` with a `backend_repo` fixture parameterised over `memory`, `json`, `sqlite` (using `tmp_path` for file-based adapters).
 
