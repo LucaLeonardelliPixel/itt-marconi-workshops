@@ -140,7 +140,7 @@ Tasks are ordered so that each layer is stable before the layer above it is buil
 
 ---
 
-- [ ] 11. Implement `UserService` — delete
+- [x] 11. Implement `UserService` — delete
 
   Add `delete(id)` to `UserService`:
   - Delegate to `repo.delete`; raise `NotFoundError` if the adapter returns `False` (record absent).

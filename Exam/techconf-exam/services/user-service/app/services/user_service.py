@@ -389,8 +389,27 @@ class UserService:
             raise NotFoundError(user_id)
         return result
 
-    # Methods implemented in Tasks 11:
-    #   delete(id)                     -> None
+    def delete(self, user_id: str) -> None:
+        """Delete a user by their ID.
+
+        Parameters
+        ----------
+        user_id:
+            The UUID string of the user to delete.
+
+        Returns
+        -------
+        None
+
+        Raises
+        ------
+        NotFoundError
+            No user with *user_id* exists in the repository (``repo.delete``
+            returned ``False``).
+        """
+        deleted = self._repo.delete(user_id)
+        if not deleted:
+            raise NotFoundError(user_id)
 
     # ------------------------------------------------------------------
     # Internal validation helpers

@@ -108,6 +108,18 @@
         "chatSessionId": "sess_17d3e2dc-2d01-468c-b2a4-a8b638c5028f",
         "timestamp": 1790342378311
       }
+    ],
+    "11. Implement `UserService` — delete": [
+      {
+        "executionId": "eaf484b7-ea25-4efa-b143-e297fcbef30f",
+        "chatSessionId": "sess_780b359f-6816-4bdf-b8d6-148f18d0c3e9",
+        "timestamp": 1790342411971
+      },
+      {
+        "executionId": "eaf484b7-ea25-4efa-b143-e297fcbef30f",
+        "chatSessionId": "sess_780b359f-6816-4bdf-b8d6-148f18d0c3e9",
+        "timestamp": 1790342468881
+      }
     ]
   }
 }
